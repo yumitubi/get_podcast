@@ -3,7 +3,6 @@
 
 import os 
 import shutil 
-import string 
 import urllib 
 import re 
 import sys
@@ -43,12 +42,16 @@ def download_on_pc(url_feed, podcast_path):
     for i in list_urls:
         print i.split("/")[-1]
     try:
-        for_download = raw_input("Введите номера подкастов, через запятую: ").split(",")
-        for i in list_urls:
-            for p in for_download:
-                if (p in i) and os.path.exists(podcast_path):
-                    download_podcast(i, podcast_path + i.split("/")[-1])
-                    print "Файл сохранен как %s" % podcast_path + i.split("/")[-1]
+        for_download_string = raw_input("Введите номера подкастов, через запятую: ")
+        if for_download_string == '':
+            print "Вы не указали подкастов для скачивания!"
+        else:
+            for_download = for_download_string.split("/")
+            for i in list_urls:
+                for p in for_download:
+                    if (p in i) and os.path.exists(podcast_path):
+                        download_podcast(i, podcast_path + i.split("/")[-1])
+                        print "Файл сохранен как %s" % podcast_path + i.split("/")[-1]
     except:
         print "Что-то пошло не так"
         
@@ -63,7 +66,7 @@ def delete_podcast_on_player(player_path):
         list_podcast = os.listdir(player_path)
         for i in list_podcast: print i
         delete_string = raw_input("Введите через запятую подкасты, что надо удалить: ")
-        if delete_string == ['']:
+        if delete_string == '':
             print "Вы не указали подкастов для удаления!"
         else:
             delete_list = delete_string.split(",")
@@ -88,7 +91,7 @@ def upload_podcast_on_player(podcast_path, player_path):
         print "Список подкастов, доступных для копирования: "
         for i in list_podcast: print i
         copy_string = raw_input("Введите через запятую подкасты, что надо скопировать: ")
-        if copy_string == ['']:
+        if copy_string == '':
             print "Вы не указали подкастов для копирования!"
         else:
             copy_list = copy_string.split(",")
